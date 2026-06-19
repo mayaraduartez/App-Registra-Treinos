@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Alert, FlatList, TouchableOpacity, Modal, ActivityIndicator, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { auth, db } from '../firebase'; 
+import { auth, db } from '../firebase';
 import { collection, addDoc, onSnapshot, query, where, doc, deleteDoc, getDocs } from 'firebase/firestore';
 
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
@@ -79,7 +79,7 @@ export default function Historico() {
     return () => unsubscribe();
   }, [auth.currentUser?.uid]);
 
-  const handleDateChange = (event, selectedDate) => {
+  const handleDateChange = (event: any, selectedDate?: Date) => {
     if (selectedDate) {
       setDate(selectedDate);
       setShowDatePicker(false);
@@ -166,15 +166,15 @@ export default function Historico() {
         </View>
       </ScrollView>
 
-      <Button 
-        title="+ Registrar Treino" 
-        onPress={() => setModalVisible(true)} 
-        color="#28A745" 
+      <Button
+        title="+ Registrar Treino"
+        onPress={() => setModalVisible(true)}
+        color="#28A745"
       />
 
       {loading && <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 20 }} />}
 
-      <FlatList 
+      <FlatList
         data={treinosRealizados}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -190,8 +190,8 @@ export default function Historico() {
                 <Text style={styles.observacoes}>📝 {item.observacoes}</Text>
               )}
             </View>
-            
-            <TouchableOpacity 
+
+            <TouchableOpacity
               style={styles.btnDeletar}
               onPress={() => deletarTreino(item.id)}
             >
@@ -218,11 +218,11 @@ export default function Historico() {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalTitle}>Registrar Treino</Text>
-            
+
             <Text style={styles.label}>Ficha de Treino</Text>
             <ScrollView style={styles.fichaList}>
               {fichas.map((ficha) => (
-                <TouchableOpacity 
+                <TouchableOpacity
                   key={ficha.id}
                   style={[
                     styles.fichaOption,
@@ -241,7 +241,7 @@ export default function Historico() {
             </ScrollView>
 
             <Text style={styles.label}>Data</Text>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.dateButton}
               onPress={() => setShowDatePicker(true)}
             >
@@ -274,14 +274,14 @@ export default function Historico() {
             </View>
 
             <View style={styles.modalButtonContainer}>
-              <Button 
-                title="Cancelar" 
-                onPress={() => setModalVisible(false)} 
+              <Button
+                title="Cancelar"
+                onPress={() => setModalVisible(false)}
                 color="#FF3B30"
               />
-              <Button 
-                title="Registrar" 
-                onPress={registrarTreino} 
+              <Button
+                title="Registrar"
+                onPress={registrarTreino}
                 color="#28A745"
                 disabled={loading || !fichaSelected}
               />
