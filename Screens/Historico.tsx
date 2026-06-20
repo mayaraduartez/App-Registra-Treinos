@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, Alert, FlatList, TouchableOpacity, Moda
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { auth, db } from '../firebase';
-import { collection, addDoc, onSnapshot, query, where, doc, deleteDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, query, where, doc, deleteDoc, getDocs, serverTimestamp } from 'firebase/firestore';
 
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
@@ -97,15 +97,21 @@ export default function Historico() {
       const dataStr = date.toLocaleDateString('pt-BR');
       const horaStr = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
+      const duracaoNumero = Number(duracao);
+      if (Number.isNaN(duracaoNumero) || duracaoNumero <= 0) {
+        Alert.alert('Erro', 'Informe uma duração válida em minutos.');
+        return;
+      }
+
       await addDoc(teinosCollectionRef, {
         fichaId: fichaSelected,
         fichaNome: nomeFicha,
         dataRealizacao: dataStr,
         hora: horaStr,
-        duracao: duracao,
+        duracao: duracaoNumero,
         observacoes: observacoes,
         userId: auth.currentUser?.uid,
-        timestamp: new Date(),
+        timestamp: serverTimestamp(),
       });
 
       setFichaSelected('');

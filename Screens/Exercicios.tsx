@@ -113,11 +113,25 @@ export default function Exercicios() {
   };
 
   const adicionarExercicio = async () => {
-    Alert.alert('Botão clicado');
     if (novoExercicio.trim() === '') {
       Alert.alert('Digite o nome do exercício');
       return;
     }
+
+    if (!fichaId || !auth.currentUser?.uid) {
+      Alert.alert('Erro', 'Não foi possível identificar a ficha atual.');
+      return;
+    }
+
+    const seriesNumero = Number(series);
+    const repeticoesNumero = Number(repeticoes);
+    const pesoNumero = peso ? Number(peso) : 0;
+
+    if (Number.isNaN(seriesNumero) || Number.isNaN(repeticoesNumero) || seriesNumero <= 0 || repeticoesNumero <= 0) {
+      Alert.alert('Erro', 'Informe séries e repetições válidas.');
+      return;
+    }
+
     try {
       setLoading(true);
       const agora = new Date().toLocaleDateString('pt-BR');
@@ -139,11 +153,11 @@ export default function Exercicios() {
 
       await addDoc(exerciciosCollectionRef, {
         nome: novoExercicio,
-        series: series,
-        repeticoes: repeticoes,
-        peso: peso,
+        series: seriesNumero,
+        repeticoes: repeticoesNumero,
+        peso: pesoNumero,
         fichaId: fichaId,
-        userId: auth.currentUser?.uid,
+        userId: auth.currentUser.uid,
         dataAdicao: agora,
         imagemUrl: imagemUrl
       });
