@@ -2,20 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Alert, FlatList, TouchableOpacity, Modal, ActivityIndicator, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { auth, db } from '../firebase';
+import { auth, db } from '../config/firebase';
 import { collection, addDoc, onSnapshot, query, where, doc, deleteDoc, getDocs, serverTimestamp } from 'firebase/firestore';
 
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-
-type TreinoRealizado = {
-  id: string;
-  fichaId: string;
-  fichaNome: string;
-  dataRealizacao: string;
-  hora: string;
-  duracao: string;
-  observacoes: string;
-}
+import { TreinoRealizado } from '../types';
 
 export default function Historico() {
   const tabBarHeight = useBottomTabBarHeight?.() ?? 0;
@@ -154,7 +145,7 @@ export default function Historico() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>📈 Histórico de Treinos</Text>
+      <Text style={styles.title}>📊 Histórico de Treinos</Text>
 
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.statsContainer}>
@@ -190,7 +181,7 @@ export default function Historico() {
             <View style={{ flex: 1 }}>
               <Text style={styles.fichaNome}>{item.fichaNome}</Text>
               <View style={styles.detalhesRow}>
-                <Text style={styles.detalhe}>� {item.dataRealizacao}</Text>
+                <Text style={styles.detalhe}>📅 {item.dataRealizacao}</Text>
                 <Text style={styles.detalhe}>🕐 {item.hora}</Text>
               </View>
               <Text style={styles.detalhe}>⏳ Duração: {item.duracao} min</Text>

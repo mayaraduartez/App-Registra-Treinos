@@ -1,42 +1,31 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
 
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../config/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../App';
+import { RootStackParamList } from '../../App';
 
-type RegisterScreenProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
+type LoginScreenProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
-export default function Register() {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [confirmSenha, setConfirmSenha] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const navigation = useNavigation<RegisterScreenProp>();
+  const navigation = useNavigation<LoginScreenProp>();
 
-  const cadastrar = () => {
+  const logar = () => {
     if (!email.trim() || !senha.trim()) {
       Alert.alert('Erro', 'Preencha e-mail e senha');
       return;
     }
-    if (senha !== confirmSenha) {
-      Alert.alert('Erro', 'As senhas não correspondem');
-      return;
-    }
-    if (senha.length < 6) {
-      Alert.alert('Erro', 'A senha deve ter pelo menos 6 caracteres');
-      return;
-    }
-
     setLoading(true);
-    createUserWithEmailAndPassword(auth, email, senha)
+    signInWithEmailAndPassword(auth, email, senha)
       .then(() => {
         setLoading(false);
-        Alert.alert("Sucesso!", "Conta criada! Bem-vindo ao FitTrack!");
       })
       .catch((erro) => {
         setLoading(false);
@@ -46,8 +35,8 @@ export default function Register() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>� Criar Conta</Text>
-      <Text style={styles.subtitle}>Comece sua jornada fitness</Text>
+      <Text style={styles.title}>Registra Treinos</Text>
+      <Text style={styles.subtitle}>Seu treino, sua história</Text>
 
       <TextInput
         style={styles.input}
@@ -61,20 +50,10 @@ export default function Register() {
 
       <TextInput
         style={styles.input}
-        placeholder='Senha (mín. 6 caracteres)'
+        placeholder='Senha'
         secureTextEntry
         onChangeText={setSenha}
         value={senha}
-        editable={!loading}
-        placeholderTextColor="#A1A1A6"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder='Confirmar Senha'
-        secureTextEntry
-        onChangeText={setConfirmSenha}
-        value={confirmSenha}
         editable={!loading}
         placeholderTextColor="#A1A1A6"
       />
@@ -83,16 +62,24 @@ export default function Register() {
         <ActivityIndicator size="large" color="#8B5CF6" style={{ marginTop: 20 }} />
       ) : (
         <>
-          <TouchableOpacity style={styles.buttonPrimary} onPress={cadastrar} activeOpacity={0.8}>
-            <Text style={styles.buttonPrimaryText}>Cadastrar</Text>
+          <TouchableOpacity style={styles.buttonPrimary} onPress={logar} activeOpacity={0.8}>
+            <Text style={styles.buttonPrimaryText}>Entrar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
             style={styles.buttonSecondary}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('Register')} 
             activeOpacity={0.8}
           >
-            <Text style={styles.buttonSecondaryText}>Voltar ao Login</Text>
+            <Text style={styles.buttonSecondaryText}>Criar conta</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.buttonTertiary}
+            onPress={() => navigation.navigate('RecuperaSenha')}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.buttonTertiaryText}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </>
       )}
@@ -105,10 +92,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    backgroundColor: '#E6F3FF'
+    backgroundColor: '#F0E7FF'
   },
   title: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: '700',
     marginBottom: 8,
     textAlign: 'center',
@@ -127,7 +114,7 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 16,
     borderRadius: 10,
-    backgroundColor: '#F0F9FF',
+    backgroundColor: '#F8F5FF',
     fontSize: 16,
     color: '#1F2937',
     elevation: 2,
@@ -158,12 +145,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8DFF5',
     padding: 14,
     borderRadius: 10,
+    marginBottom: 12,
     borderWidth: 1.5,
     borderColor: '#C4B5FD',
   },
   buttonSecondaryText: {
     color: '#8B5CF6',
     fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  buttonTertiary: {
+    padding: 12,
+    borderRadius: 10,
+  },
+  buttonTertiaryText: {
+    color: '#8B5CF6',
+    fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
   }

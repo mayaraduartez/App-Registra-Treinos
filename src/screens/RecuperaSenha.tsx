@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native';
 
-import { auth } from '../firebase'; 
+import { auth } from '../config/firebase'; 
 
 import { sendPasswordResetEmail } from 'firebase/auth'; 
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../App';
+import { RootStackParamList } from '../../App';
 
 // Tipagem da navegação
 type RecoverScreenProp = NativeStackNavigationProp<RootStackParamList, 'RecuperaSenha'>;
@@ -34,7 +34,7 @@ export default function RecoverPassword() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>� Recuperar Senha</Text>
+      <Text style={styles.title}>🔐 Recuperar Senha</Text>
       <Text style={styles.subtitle}>Enviaremos um link para seu e-mail</Text>
       
       <TextInput 

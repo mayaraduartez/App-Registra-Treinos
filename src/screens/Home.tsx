@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Alert, TextInput, FlatList, TouchableOpacity, Modal, ActivityIndicator } from 'react-native';
 
-import { auth, db } from '../firebase'; 
+import { auth, db } from '../config/firebase'; 
 import { signOut } from 'firebase/auth'; 
 
 import { collection, addDoc, onSnapshot, query, where, doc, deleteDoc, getDocs } from 'firebase/firestore';
@@ -9,16 +9,10 @@ import { collection, addDoc, onSnapshot, query, where, doc, deleteDoc, getDocs }
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { FichasStackParamList } from '../App';
+import { FichasStackParamList } from '../../App';
+import { FichaDeTreino } from '../types';
 
 type FichasNavigationProp = NativeStackNavigationProp<FichasStackParamList, 'Fichas'>;
-
-type FichaDeTreino = {
-  id: string;
-  nome: string;
-  descricao: string;
-  dataCriacao: string;
-}
 
 export default function FichasDeTreino() {
   const navigation = useNavigation<FichasNavigationProp>();
@@ -129,7 +123,7 @@ export default function FichasDeTreino() {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.title}>� Minhas Fichas</Text>
+      <Text style={styles.title}>💪 Minhas Fichas</Text>
       
       <TouchableOpacity 
         style={styles.buttonAdd}
@@ -153,7 +147,7 @@ export default function FichasDeTreino() {
             <View style={styles.fichaContent}>
               <Text style={styles.fichaNome}>{item.nome}</Text>
               {item.descricao && <Text style={styles.fichaDescricao}>{item.descricao}</Text>}
-              <Text style={styles.fichaData}>� Criada: {item.dataCriacao}</Text>
+              <Text style={styles.fichaData}>📆 Criada: {item.dataCriacao}</Text>
             </View>
             
             <TouchableOpacity 

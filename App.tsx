@@ -4,15 +4,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ActivityIndicator, View, Text } from 'react-native';
 
-import { auth } from './firebase';
+import { auth } from './src/config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
-import Login from './Screens/Login';
-import Home from './Screens/Home';
-import Register from './Screens/Register';
-import RecuperaSenha from './Screens/RecuperaSenha';
-import Exercicios from './Screens/Exercicios';
-import Historico from './Screens/Historico';
+import Login from './src/screens/Login';
+import Home from './src/screens/Home';
+import Register from './src/screens/Register';
+import RecuperaSenha from './src/screens/RecuperaSenha';
+import Exercicios from './src/screens/Exercicios';
+import Historico from './src/screens/Historico';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -56,22 +56,32 @@ function MainTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarActiveTintColor: '#007BFF',
-        tabBarInactiveTintColor: '#999',
+        tabBarActiveTintColor: '#8B5CF6',
+        tabBarInactiveTintColor: '#A1A1A6',
         tabBarStyle: {
-          backgroundColor: '#fff',
-          borderTopColor: '#ddd',
+          backgroundColor: '#FFFFFF',
+          borderTopColor: '#E5E7EB',
           borderTopWidth: 1,
+          paddingBottom: 8,
+          paddingTop: 8,
+          height: 70,
         },
         headerShown: true,
         headerStyle: {
-          backgroundColor: '#fff',
-          borderBottomColor: '#ddd',
+          backgroundColor: '#FFFFFF',
+          borderBottomColor: '#E5E7EB',
           borderBottomWidth: 1,
+          elevation: 4,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.08,
+          shadowRadius: 3,
         },
-        headerTintColor: '#333',
+        headerTintColor: '#8B5CF6',
         headerTitleStyle: {
-          fontWeight: 'bold',
+          fontWeight: '700',
+          fontSize: 18,
+          color: '#1F2937',
         },
       })}
     >
@@ -80,7 +90,7 @@ function MainTabs() {
         component={FichasNavigator}
         options={{
           title: 'Minhas Fichas',
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>📋</Text>,
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24, color }}>📋</Text>,
           headerShown: false,
         }}
       />
@@ -89,7 +99,7 @@ function MainTabs() {
         component={Historico}
         options={{
           title: 'Histórico',
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>📅</Text>,
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24, color }}>📊</Text>,
           headerShown: true,
         }}
       />

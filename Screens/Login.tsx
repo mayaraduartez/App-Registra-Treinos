@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
 
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -35,8 +35,8 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>App Registro de Treinos</Text>
-      <Text style={styles.subtitle}></Text>
+      <Text style={styles.title}>Registra Treinos</Text>
+      <Text style={styles.subtitle}>Seu treino, sua história</Text>
 
       <TextInput
         style={styles.input}
@@ -45,7 +45,7 @@ export default function Login() {
         onChangeText={setEmail}
         value={email}
         editable={!loading}
-        placeholderTextColor="#999"
+        placeholderTextColor="#A1A1A6"
       />
 
       <TextInput
@@ -55,26 +55,32 @@ export default function Login() {
         onChangeText={setSenha}
         value={senha}
         editable={!loading}
-        placeholderTextColor="#999"
+        placeholderTextColor="#A1A1A6"
       />
 
       {loading ? (
-        <ActivityIndicator size="large" color="#007BFF" style={{ marginTop: 20 }} />
+        <ActivityIndicator size="large" color="#8B5CF6" style={{ marginTop: 20 }} />
       ) : (
         <>
-          <Button title='Entrar' onPress={logar} />
+          <TouchableOpacity style={styles.buttonPrimary} onPress={logar} activeOpacity={0.8}>
+            <Text style={styles.buttonPrimaryText}>Entrar</Text>
+          </TouchableOpacity>
 
-          <View style={{ marginTop: 20 }}>
-            <Button title='Criar conta' onPress={() => navigation.navigate('Register')} color="#007BFF" />
-          </View>
+          <TouchableOpacity 
+            style={styles.buttonSecondary}
+            onPress={() => navigation.navigate('Register')} 
+            activeOpacity={0.8}
+          >
+            <Text style={styles.buttonSecondaryText}>Criar conta</Text>
+          </TouchableOpacity>
 
-          <View style={{ marginTop: 10 }}>
-            <Button
-              title='Esqueceu a senha?'
-              onPress={() => navigation.navigate('RecuperaSenha')}
-              color="#FF9500"
-            />
-          </View>
+          <TouchableOpacity 
+            style={styles.buttonTertiary}
+            onPress={() => navigation.navigate('RecuperaSenha')}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.buttonTertiaryText}>Esqueceu a senha?</Text>
+          </TouchableOpacity>
         </>
       )}
     </View>
@@ -86,29 +92,77 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    backgroundColor: '#f5f5f5'
+    backgroundColor: '#F0E7FF'
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 5,
+    fontSize: 36,
+    fontWeight: '700',
+    marginBottom: 8,
     textAlign: 'center',
-    color: '#333'
+    color: '#1F2937'
   },
   subtitle: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 16,
+    color: '#6B7280',
     textAlign: 'center',
-    marginBottom: 30,
-    fontStyle: 'italic'
+    marginBottom: 40,
+    fontWeight: '500'
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
+    borderWidth: 1.5,
+    borderColor: '#E5E7EB',
+    padding: 14,
+    marginBottom: 16,
+    borderRadius: 10,
+    backgroundColor: '#F8F5FF',
+    fontSize: 16,
+    color: '#1F2937',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+  },
+  buttonPrimary: {
+    backgroundColor: '#8B5CF6',
+    padding: 14,
+    borderRadius: 10,
+    marginTop: 8,
+    marginBottom: 16,
+    elevation: 4,
+    shadowColor: '#8B5CF6',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  buttonPrimaryText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  buttonSecondary: {
+    backgroundColor: '#E8DFF5',
+    padding: 14,
+    borderRadius: 10,
+    marginBottom: 12,
+    borderWidth: 1.5,
+    borderColor: '#C4B5FD',
+  },
+  buttonSecondaryText: {
+    color: '#8B5CF6',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  buttonTertiary: {
     padding: 12,
-    marginBottom: 15,
-    borderRadius: 8,
-    backgroundColor: '#fff',
+    borderRadius: 10,
+  },
+  buttonTertiaryText: {
+    color: '#8B5CF6',
     fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
   }
 });

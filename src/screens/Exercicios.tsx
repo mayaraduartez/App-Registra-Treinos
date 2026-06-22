@@ -3,21 +3,12 @@ import { StyleSheet, Text, View, Button, Alert, TextInput, FlatList, TouchableOp
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { auth, db } from '../firebase';
+import { auth, db } from '../config/firebase';
 import { collection, addDoc, onSnapshot, query, where, doc, deleteDoc } from 'firebase/firestore';
 
 import { useRoute } from '@react-navigation/native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-
-type Exercicio = {
-  id: string;
-  nome: string;
-  series: string;
-  repeticoes: string;
-  peso: string;
-  dataAdicao: string;
-  imagemUrl?: string;
-}
+import { Exercicio } from '../types';
 
 const IMGBB_API_KEY = 'b812566f4daf5f1dd51f5ec883b32f80';
 
@@ -218,7 +209,9 @@ export default function Exercicios() {
               ) : null}
               <View style={styles.detalhesRow}>
                 <Text style={styles.detalhe}>🔙 {item.series}x{item.repeticoes}</Text>
-                {item.peso && <Text style={styles.detalhe}>⚖️ {item.peso}kg</Text>}
+                {item.peso ? (
+  <Text style={styles.detalhe}>⚖️ {item.peso}kg</Text>
+) : null}
               </View>
               <Text style={styles.dataAdicao}>📅 {item.dataAdicao}</Text>
             </View>
@@ -250,7 +243,7 @@ export default function Exercicios() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>� Novo Exercício</Text>
+            <Text style={styles.modalTitle}>🔥 Novo Exercício</Text>
 
             <TextInput
               style={styles.input}
@@ -297,7 +290,7 @@ export default function Exercicios() {
             </View>
 
             <TouchableOpacity style={styles.imageButton} onPress={selecionarImagem} activeOpacity={0.8}>
-              <Text style={styles.imageButtonText}>{imagemUri ? '�️ Alterar foto' : '🖼️ Adicionar foto'}</Text>
+              <Text style={styles.imageButtonText}>{imagemUri ? '🖼️ Alterar foto' : '🖼️ Adicionar foto'}</Text>
             </TouchableOpacity>
             {imagemUri ? (
               <Image source={{ uri: imagemUri }} style={styles.previewImage} />
